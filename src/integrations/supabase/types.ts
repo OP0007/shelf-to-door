@@ -14,7 +14,170 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      admins: {
+        Row: {
+          created_at: string | null
+          email: string
+          id: number
+          name: string
+          password: string
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          id?: number
+          name: string
+          password: string
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          id?: number
+          name?: string
+          password?: string
+        }
+        Relationships: []
+      }
+      cart_items: {
+        Row: {
+          added_at: string | null
+          cart_id: number | null
+          id: number
+          item_weight: number
+          product_id: number | null
+          quantity: number
+        }
+        Insert: {
+          added_at?: string | null
+          cart_id?: number | null
+          id?: number
+          item_weight: number
+          product_id?: number | null
+          quantity?: number
+        }
+        Update: {
+          added_at?: string | null
+          cart_id?: number | null
+          id?: number
+          item_weight?: number
+          product_id?: number | null
+          quantity?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cart_items_cart_id_fkey"
+            columns: ["cart_id"]
+            isOneToOne: false
+            referencedRelation: "carts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cart_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      carts: {
+        Row: {
+          created_at: string | null
+          id: number
+          status: string | null
+          total_weight: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: number
+          status?: string | null
+          total_weight?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: number
+          status?: string | null
+          total_weight?: number | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      products: {
+        Row: {
+          created_at: string | null
+          id: number
+          name: string
+          photo_url: string | null
+          price: number
+          rfid_tag: string
+          stock_quantity: number
+          weight: number
+        }
+        Insert: {
+          created_at?: string | null
+          id?: number
+          name: string
+          photo_url?: string | null
+          price: number
+          rfid_tag: string
+          stock_quantity?: number
+          weight: number
+        }
+        Update: {
+          created_at?: string | null
+          id?: number
+          name?: string
+          photo_url?: string | null
+          price?: number
+          rfid_tag?: string
+          stock_quantity?: number
+          weight?: number
+        }
+        Relationships: []
+      }
+      transactions: {
+        Row: {
+          cart_id: number | null
+          email: string | null
+          id: number
+          payment_method: string
+          status: string
+          total_amount: number
+          total_weight: number
+          transaction_time: string | null
+        }
+        Insert: {
+          cart_id?: number | null
+          email?: string | null
+          id?: number
+          payment_method: string
+          status?: string
+          total_amount: number
+          total_weight: number
+          transaction_time?: string | null
+        }
+        Update: {
+          cart_id?: number | null
+          email?: string | null
+          id?: number
+          payment_method?: string
+          status?: string
+          total_amount?: number
+          total_weight?: number
+          transaction_time?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transactions_cart_id_fkey"
+            columns: ["cart_id"]
+            isOneToOne: false
+            referencedRelation: "carts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
