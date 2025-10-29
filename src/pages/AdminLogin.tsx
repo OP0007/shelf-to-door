@@ -19,15 +19,13 @@ const AdminLogin = () => {
     setIsLoading(true);
 
     try {
-      const { data, error } = await supabase
-        .from("admins")
-        .select("*")
-        .eq("email", email)
-        .eq("password", password)
-        .maybeSingle();
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-      if (error || !data) {
-        toast.error("Invalid credentials");
+      if (error) {
+        toast.error(error.message);
         setIsLoading(false);
         return;
       }
@@ -98,8 +96,7 @@ const AdminLogin = () => {
         </form>
 
         <div className="mt-6 text-center text-sm text-muted-foreground">
-          <p>Default credentials:</p>
-          <p className="font-mono text-xs mt-1">admin@store.com / admin123</p>
+          <p>Use Supabase Auth credentials to login</p>
         </div>
       </Card>
     </div>

@@ -61,10 +61,18 @@ const AdminDashboard = () => {
   });
 
   useEffect(() => {
+    checkAuth();
     fetchProducts();
     fetchTransactions();
     fetchStats();
   }, []);
+
+  const checkAuth = async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      navigate("/admin-login");
+    }
+  };
 
   const fetchProducts = async () => {
     const { data, error } = await supabase
@@ -180,7 +188,9 @@ const AdminDashboard = () => {
     fetchStats();
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    toast.success("Logged out successfully");
     navigate("/admin-login");
   };
 
